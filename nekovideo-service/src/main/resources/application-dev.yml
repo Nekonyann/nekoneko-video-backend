@@ -1,0 +1,64 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/nekovideo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
+      username:
+      password:
+      initial-size: 5
+  redis:
+    host:
+    port:
+    password:
+    database:
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: 100ms
+  web:
+    resources:
+      static-locations: file:${nekomall.file.upload-path}, classpath:/static/
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+      logic-delete-field: showStatus # global logic delete field
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+knife4j:
+  enable: true
+
+logging:
+  config: classpath:logback-spring.xml
+
+nekomall:
+  file:
+    upload-path: ${user.dir}
+    real-temp-file: /file/temp
+    real-video-file-temp: ${nekomall.file.real-temp-file}/video
+    real-video-file: /files/video
+    real-images-file: /files/images
+
+  jwt:
+    admin-secret-key:
+    admin-exp-ttl: 86400000
+    admin-token-name: Token
+    user-secret-key:
+    user-exp-ttl: 86400000
+    user-token-name: Authentication
+
+---
+# development
+server:
+  port: 9000
+spring:
+  config:
+    activate:
+      on-profile: dev
